@@ -1,0 +1,68 @@
+﻿@model MazeSharp.Web.ViewModels.HomeIndexViewModel
+<script type="text/javascript">
+    var mazeJson = "@Model.MazeJson";
+</script>
+<div class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="/img/leeds-sharp-logo.png" />
+            </div>
+            <div class="col-md-10 maze-form">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label class="sr-only" for="maze-width">Width</label>
+                        <input type="text" class="form-control" id="maze-width" placeholder="Width">
+                    </div>
+                    <div class="form-group">
+                        <label class="sr-only" for="maze-height">Height</label>
+                        <input type="text" class="form-control" id="maze-height" placeholder="Height">
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="is-perfect" checked="checked"> Perfect
+                        </label>
+                    </div>
+                    <button type="button" id="generate-maze" class="btn btn-success">Generate</button>
+                    <button type="button" id="clear-maze" class="btn btn-danger">Clear</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <h2>@Model.Player</h2>
+            <form action="/home/uploadPlayer" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <div class="btn btn-success btn-file btn-block">
+                        Select Player <input id="player" type="file" name="dll" size="10" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" id="upload-player" class="btn btn-success btn-block">Upload Player</button>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="solve-maze" class="btn btn-success btn-block">Solve</button>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="solve-stop" class="btn btn-danger btn-block">Stop</button>
+                </div>
+            </form>
+            <div class="message">@Model.Message</div>
+            <div id="countdown" class="pull-left"></div>
+            <div id="visited-counter" class="pull-right">
+                <div class="visited-number">
+                    Efficiency: <span id="algorithm-efficiency">1</span>
+                    Efficiency: <span id="visited-number">1</span>/<span id="total-moves">1</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div id="box"></div>
+        </div>
+    </div>
+</div>
+
+

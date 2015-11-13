@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "css/maze.css",
+    "inputFile": "js/maze.js"
+  },
+  {
+    "outputFile": "css/maze.css",
+    "inputFile": "css/maze.scss"
+  }
+]
