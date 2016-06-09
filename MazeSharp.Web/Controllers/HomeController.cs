@@ -3,13 +3,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Caching;
-using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using MazeSharp.Domain;
 using MazeSharp.Domain.Players;
 using MazeSharp.Interfaces;
 using MazeSharp.Web.ViewModels;
+using MazeSharp.Web.ViewModels.Home;
 using Newtonsoft.Json;
 
 namespace MazeSharp.Web.Controllers
@@ -19,13 +19,13 @@ namespace MazeSharp.Web.Controllers
         #region Actions
         public ActionResult Index(string message)
         {
-            var viewModel = new HomeIndexViewModel
-            {
-                Title = "Maze Sharp!",
+            var viewModel = new IndexViewModel("Maze Sharp")
+            {         
                 Message = message,
                 Player = LoadPlayerName(),
                 MazeJson = LoadMazeJson()
             };
+
             return View(viewModel);
         }
 
