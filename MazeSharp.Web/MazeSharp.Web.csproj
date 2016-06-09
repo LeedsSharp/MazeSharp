@@ -202,9 +202,25 @@
     <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\circle-progress.js" />
+    <Content Include="js\codeEditor.js" />
     <Content Include="js\jquery-1.9.1.js" />
     <Content Include="js\jquery-1.9.1.min.js" />
     <Content Include="js\jquery.countdown360.js" />
+    <Content Include="libs\codemirror\addon\edit\closebrackets.js" />
+    <Content Include="libs\codemirror\codemirror.css" />
+    <Content Include="libs\codemirror\codemirror.js" />
+    <Content Include="libs\codemirror\mode\clike\clike.js" />
+    <Content Include="libs\codemirror\mode\clike\index.html" />
+    <Content Include="libs\codemirror\mode\clike\scala.html" />
+    <Content Include="libs\codemirror\mode\clike\test.js" />
+    <Content Include="libs\codemirror\mode\index.html" />
+    <Content Include="libs\codemirror\mode\javascript\index.html" />
+    <Content Include="libs\codemirror\mode\javascript\javascript.js" />
+    <Content Include="libs\codemirror\mode\javascript\json-ld.html" />
+    <Content Include="libs\codemirror\mode\javascript\test.js" />
+    <Content Include="libs\codemirror\mode\javascript\typescript.html" />
+    <Content Include="libs\codemirror\mode\meta.js" />
+    <Content Include="libs\codemirror\themes\solarized.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -246,6 +262,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="js\application.ts" />
+    <TypeScriptCompile Include="js\codeEditor.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.circle-progress.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.countdown360.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
