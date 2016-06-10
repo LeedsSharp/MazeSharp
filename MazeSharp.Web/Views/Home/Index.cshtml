@@ -27,18 +27,13 @@
     <h2>@Model.Player</h2>
     <form action="@Url.Action("UploadPlayer")" method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <div class="btn btn-success btn-file btn-block">
-                Select Player <input id="player" type="file" name="dll" size="10" />
-            </div>
-        </div>
-        <div class="form-group">
-            <button type="submit" id="upload-player" class="btn btn-success btn-block">Upload Player</button>
-        </div>
-        <div class="form-group">
             <button type="button" id="solve-maze" class="btn btn-success btn-block">Solve</button>
         </div>
         <div class="form-group">
             <button type="button" id="solve-stop" class="btn btn-danger btn-block">Stop</button>
+        </div>
+        <div class="form-group">
+            <a class="btn" href="@Url.Action("Index", "CodeEditor")">Code Editor</a>
         </div>
     </form>
     <div class="message">@Model.Message</div>

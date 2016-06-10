@@ -6,17 +6,21 @@
 
 <h1>Code editor</h1>
 
-<form action="@Url.Action("UploadCode")" method="post">
+<form method="post">
     @ViewBag.Message
-    <ul>
-        @foreach (var diagnostic in Model.Diagnostics)
-        {
-            <li>@diagnostic</li>
-        }
-    </ul>
+    @if (Model.Diagnostics != null)
+    {
+        <ul>
+            @foreach (var diagnostic in Model.Diagnostics)
+            {
+                <li>@diagnostic</li>
+            }
+        </ul>
+    }
+    
     <ul id="player-errors"></ul>
     <div class="code">
-        <textarea name="Source" id="code">@ViewBag.Source</textarea>
+        <textarea name="Source" id="code">@Model.Source</textarea>
     </div>
     <button type="submit" name="submit" style="float: left">Compile</button>
 </form>

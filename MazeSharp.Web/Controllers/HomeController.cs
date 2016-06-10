@@ -1,14 +1,9 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.Caching;
-using System.Web;
 using System.Web.Mvc;
 using MazeSharp.Domain;
 using MazeSharp.Domain.Players;
 using MazeSharp.Interfaces;
-using MazeSharp.Web.ViewModels;
 using MazeSharp.Web.ViewModels.Home;
 using Newtonsoft.Json;
 
@@ -41,36 +36,6 @@ namespace MazeSharp.Web.Controllers
             return Content(json, "application/json");
         }
 
-        [HttpPost]
-        public ActionResult UploadPlayer(HttpPostedFileBase dll)
-        {
-            var message = "Could not load assembly";
-
-            // Load player dll
-            if (dll.ContentLength > 0)
-            {
-                var fileName = Path.GetFileName(dll.FileName);
-                var path = Path.Combine(Server.MapPath("~/App_Data"), fileName);
-                dll.SaveAs(path);
-                var playerAssembly = Assembly.LoadFile(path);
-                foreach (var type in playerAssembly.GetTypes().OrderBy(t => t.Name))
-                {
-                    if (type.GetInterface("IPlayer") != null)
-                    {
-                        var player = Activator.CreateInstance(type) as IPlayer;
-                        SavePlayer((IPlayer)player);
-                        SavePlayerName(type.Name);
-                        message = type.Name + " uploaded.";
-                        return RedirectToAction("Index", new { message });
-                    }
-                }
-                message = "No player implementing IPlayer found.";
-                return RedirectToAction("Index", new { message });
-
-            }
-
-            return RedirectToAction("Index", new {message});
-        }
 
         /// <summary>
         /// Load external dll from form. 
@@ -91,7 +56,7 @@ namespace MazeSharp.Web.Controllers
 
             // save state
             SaveMaze(maze);
-            SavePlayer(player);
+            //SavePlayer(player);
 
             // return new position, isSolved (current position == end)
             var json = JsonConvert.SerializeObject(cell);
@@ -154,7 +119,7 @@ namespace MazeSharp.Web.Controllers
             {
                 return (IPlayer)cache.Get("player");
             }
-            return new DepthFirstSearch();
+            return null;
         }
 
         private static string LoadPlayerName()

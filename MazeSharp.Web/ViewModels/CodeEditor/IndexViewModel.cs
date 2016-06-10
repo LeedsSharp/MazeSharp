@@ -8,9 +8,10 @@ namespace MazeSharp.Web.ViewModels.CodeEditor
         public IndexViewModel(string title)
         {
             Page.Title = title;
-            Diagnostics = new List<string>();
         }
 
-        public IList<string> Diagnostics { get; }
+        public IList<string> Diagnostics { get; set; }
+
+        public string Source { get; set; }
     }
 }
