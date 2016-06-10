@@ -41,52 +41,18 @@ $(() => {
             reindentLines(change.from.line, change.from.line + change.text.length);
         });
 
-        var reset = () => {
-            cm.setValue($("#mvc-elevator-implementation").text().trim());
-        };
-
-
-        var saveCode = () => {
-            // Don't save in mvc mode
-
-            //localStorage.setItem(lsKey, cm.getValue());
-            //$("#save_message").text("Code saved " + new Date().toTimeString());
-            //returnObj.trigger("change");
-        };
-
-        //var existingCode = localStorage.getItem(lsKey);
-        var existingCode = false; // don't use local storage in mvc mode
-        if (existingCode) {
-            cm.setValue(existingCode);
-        } else {
-            reset();
-        }
 
         $("#button_save").click(() => {
-            saveCode();
+            //saveCode();
             cm.focus();
         });
 
-        $("#button_reset").click(() => {
-            if (confirm("Do you really want to reset to the default implementation?")) {
-                localStorage.setItem("develevateBackupCode", cm.getValue());
-                reset();
-            }
-            cm.focus();
-        });
-
-        $("#button_resetundo").click(() => {
-            if (confirm("Do you want to bring back the code as before the last reset?")) {
-                cm.setValue(localStorage.getItem("develevateBackupCode") || "");
-            }
-            cm.focus();
-        });
 
         var returnObj = riot.observable({});
-        var autoSaver = _.debounce(saveCode, 1000);
+        /*var autoSaver = _.debounce(saveCode, 1000);
         cm.on("change", () => {
             autoSaver();
-        });
+        });*/
 
         returnObj.getCodeObj = () => {
             console.log("Getting code...");

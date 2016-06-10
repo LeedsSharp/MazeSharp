@@ -34,11 +34,13 @@ $(function () {
             }
             reindentLines(change.from.line, change.from.line + change.text.length);
         });
-
-
+        $("#button_save").click(function () {
+            //saveCode();
+            cm.focus();
+        });
         var returnObj = riot.observable({});
         /*var autoSaver = _.debounce(saveCode, 1000);
-        cm.on("change", function () {
+        cm.on("change", () => {
             autoSaver();
         });*/
         returnObj.getCodeObj = function () {
@@ -69,4 +71,3 @@ $(function () {
     };
     var editor = createEditor();
 });
-//# sourceMappingURL=codeEditor.js.map
