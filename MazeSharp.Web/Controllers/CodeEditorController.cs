@@ -17,16 +17,17 @@ namespace MazeSharp.Web.Controllers
 {
     public class CodeEditorController : Controller
     {
-
+        private const string StartSource = "using MazeSharp.Interfaces;\r\n\r\nnamespace YourTeamName\r\n{\r\n    public class StandStillPlayer : IPlayer\r\n    {\r\n        public ICell Move(IMaze maze)\r\n        {\r\n            return maze.CurrentPosition;\r\n        }\r\n    }\r\n}";
 
         public ActionResult Index(Guid? s = null)
         {
-            var viewModel = new IndexViewModel("Code Editor");
-
-            if (s.HasValue)
+            var viewModel = new IndexViewModel("Code Editor")
             {
-                viewModel.Source = (string)MemoryCache.Default[s.ToString()];
-            }
+                Source = s.HasValue
+                    ? (string) MemoryCache.Default[s.ToString()]
+                    : StartSource
+            };
+
 
             return View(viewModel);
         }
