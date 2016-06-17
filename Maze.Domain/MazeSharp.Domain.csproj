@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Cell.cs" />
     <Compile Include="Compass.cs" />
+    <Compile Include="Extensions\PlayerExtensions.cs" />
     <Compile Include="Maze.cs" />
     <Compile Include="Players\DepthFirstSearch.cs" />
     <Compile Include="Players\RandomMouseWithOrientationAndMemory.cs" />

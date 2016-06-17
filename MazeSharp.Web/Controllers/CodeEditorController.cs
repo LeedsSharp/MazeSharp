@@ -6,7 +6,9 @@ using System.Reflection;
 using System.Runtime.Caching;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using MazeSharp.Domain.Extensions;
 using MazeSharp.Interfaces;
+using MazeSharp.Web.Services;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -18,6 +20,12 @@ namespace MazeSharp.Web.Controllers
     public class CodeEditorController : Controller
     {
         private const string StartSource = "using MazeSharp.Interfaces;\r\n\r\nnamespace YourTeamName\r\n{\r\n    public class StandStillPlayer : IPlayer\r\n    {\r\n        public ICell Move(IMaze maze)\r\n        {\r\n            return maze.CurrentPosition;\r\n        }\r\n    }\r\n}";
+        private readonly IPlayerSavingService<IPlayer> _playerSavingService; 
+
+        public CodeEditorController()
+        {
+            _playerSavingService = new PlayerSavingService<IPlayer>();
+        }
 
         public ActionResult Index(Guid? s = null)
         {
@@ -65,8 +73,8 @@ namespace MazeSharp.Web.Controllers
                 {
                     ms.Seek(0, SeekOrigin.Begin);
                     var assembly = Assembly.Load(ms.ToArray());
-                    var players = ExtractPlayersFromAssembly(assembly);
-                    SavePlayer(players.First());
+                    var players = ExtractPlayersFromAssembly(assembly).ToList();
+                    SavePlayers(players);
 
                     var sourceGuid = Guid.NewGuid().ToString();
                     MemoryCache.Default.Add(sourceGuid, source, new CacheItemPolicy { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
@@ -94,21 +102,13 @@ namespace MazeSharp.Web.Controllers
             }
         }
 
-        private static void SavePlayer(IPlayer player)
+        private void SavePlayers(IList<IPlayer> players)
         {
-            var cache = MemoryCache.Default;
-            cache.Set("player", player, new CacheItemPolicy { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
-        }
-
-        private static IPlayer LoadPlayer()
-        {
-            var cache = MemoryCache.Default;
-            if (cache.Contains("player"))
+            var teamName = players.First().GetTeamName();
+            foreach (var player in players)
             {
-                return (IPlayer)cache.Get("player");
+                _playerSavingService.SavePlayer(teamName, player.GetName(), player);
             }
-            return null;
         }
-
     }
 }

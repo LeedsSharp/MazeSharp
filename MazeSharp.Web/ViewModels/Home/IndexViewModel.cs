@@ -1,4 +1,5 @@
-﻿using MazeSharp.Web.ViewModels.Shared;
+﻿using System.Collections.Generic;
+using MazeSharp.Web.ViewModels.Shared;
 
 namespace MazeSharp.Web.ViewModels.Home
 {
@@ -8,9 +9,12 @@ namespace MazeSharp.Web.ViewModels.Home
         {
             Page.Title = title;
         }
+        public string LoadedPlayer { get; set; }
 
         public string Message { get; set; }
-        public string Player { get; set; }
+
         public string MazeJson { get; set; }
+
+        public IList<TeamViewModel> Teams { get; set; }
     }
 }

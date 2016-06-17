@@ -24,18 +24,37 @@
 } 
 
 @section SidePanel {
-    <h2>@Model.Player</h2>
-    <form action="@Url.Action("UploadPlayer")" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <button type="button" id="solve-maze" class="btn btn-success btn-block">Solve</button>
-        </div>
-        <div class="form-group">
-            <button type="button" id="solve-stop" class="btn btn-danger btn-block">Stop</button>
-        </div>
-        <div class="form-group">
-            <a class="btn" href="@Url.Action("Index", "CodeEditor")">Code Editor</a>
-        </div>
-    </form>
+    <h2>Player</h2>
+    <p><strong>Current:</strong> @(Model.LoadedPlayer ?? "None")</p>
+    <div class="form-group">
+        <button type="button" id="solve-maze" class="btn btn-success btn-block" @(Model.LoadedPlayer == null ? "disabled" : "")>Solve</button>
+    </div>
+    <div class="form-group">
+        <button type="button" id="solve-stop" class="btn btn-danger btn-block" @(Model.LoadedPlayer == null ? "disabled" : "")>Stop</button>
+    </div>
+
+    @if (Model.Teams != null && Model.Teams.Any())
+    {
+        <ul>
+            @foreach (var team in Model.Teams)
+            {
+                <li>
+                    @team.Name
+                    <ul>
+                        @foreach (var player in team.Players)
+                        {
+                            <li>@Html.ActionLink(player, "Index", new {player, team = team.Name}, new {@class="btn btn-default"})</li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    }
+
+    <div class="form-group">
+        @Html.ActionLink("Code Editor", "Index", "CodeEditor", null, new {@class= "btn btn-default", target="codewindow" })
+    </div>
+
     <div class="message">@Model.Message</div>
     <div id="countdown" class="pull-left"></div>
     <div id="visited-counter" class="pull-right">
