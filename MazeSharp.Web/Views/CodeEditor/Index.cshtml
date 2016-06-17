@@ -1,0 +1,42 @@
+﻿@model MazeSharp.Web.ViewModels.CodeEditor.IndexViewModel
+
+@section SidePanel {
+    <p>Menu</p>
+}
+
+<h1>Code editor</h1>
+
+<form method="post">
+    @ViewBag.Message
+    @if (Model.Diagnostics != null)
+    {
+        <ul>
+            @foreach (var diagnostic in Model.Diagnostics)
+            {
+                <li>@diagnostic</li>
+            }
+        </ul>
+    }
+    
+    <ul id="player-errors"></ul>
+    <div class="code">
+        <textarea name="Source" id="code">@Model.Source</textarea>
+    </div>
+    <button type="submit" name="submit" style="float: left">Compile</button>
+</form>
+
+@section ExtraCss {
+    <link rel="stylesheet" href="/libs/codemirror/codemirror.css">
+    <link rel="stylesheet" href="/libs/codemirror/themes/solarized.css">
+}
+
+@section ExtraJavaScript{
+    <script type="text/javascript" src="/libs/lodash.min.js"></script>
+    <script type="text/javascript" src="/libs/riot.js"></script>
+    <script type="text/javascript" src="/libs/codemirror/codemirror.js"></script>
+    <script type="text/javascript" src="/libs/codemirror/addon/edit/closebrackets.js"></script>
+    <script type="text/javascript" src="/libs/codemirror/mode/javascript/javascript.js"></script>
+    <script type="text/javascript" src="/libs/codemirror/mode/clike/clike.js"></script>
+    <script type="text/javascript" src="/libs/codemirror/mode/meta.js"></script>
+    <script type="text/javascript" src="/js/codeEditor.js"></script>
+}

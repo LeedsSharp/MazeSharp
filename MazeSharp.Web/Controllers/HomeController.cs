@@ -1,32 +1,73 @@
 ﻿using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Caching;
-using System.Threading;
-using System.Web;
 using System.Web.Mvc;
 using MazeSharp.Domain;
-using MazeSharp.Domain.Players;
+using MazeSharp.Domain.Extensions;
 using MazeSharp.Interfaces;
-using MazeSharp.Web.ViewModels;
+using MazeSharp.Web.Services;
+using MazeSharp.Web.ViewModels.Home;
 using Newtonsoft.Json;
 
 namespace MazeSharp.Web.Controllers
 {
     public class HomeController : Controller
     {
-        #region Actions
-        public ActionResult Index(string message)
+        private readonly IPlayerSavingService<IPlayer> _playerSavingService;
+
+        public HomeController()
         {
-            var viewModel = new HomeIndexViewModel
+            _playerSavingService = new PlayerSavingService<IPlayer>();
+        }
+
+
+        #region Actions
+        public ActionResult Index(string player, string team)
+        {
+            IPlayer loadedPlayer = null;
+            string message = null;
+
+            if (!string.IsNullOrWhiteSpace(player) && !string.IsNullOrWhiteSpace(team))
             {
-                Title = "Maze Sharp!",
+                loadedPlayer = _playerSavingService.LoadPlayer(team, player);
+                if (loadedPlayer != null)
+                {
+                    _playerSavingService.SaveCurrentPlayerWithState(loadedPlayer);
+                    message = $"Loaded player {player} from team {team}";
+                }
+            }
+
+            if (loadedPlayer == null)
+            {
+                loadedPlayer = _playerSavingService.LoadCurrentPlayerWithState();
+            }
+
+            var viewModel = new IndexViewModel("Maze Sharp")
+            {         
                 Message = message,
-                Player = LoadPlayerName(),
+                LoadedPlayer = loadedPlayer.GetName(),
+                Teams = GetCurrentTeams().ToList(),
                 MazeJson = LoadMazeJson()
             };
+
             return View(viewModel);
+        }
+
+        private IEnumerable<TeamViewModel> GetCurrentTeams()
+        {
+            var teams = _playerSavingService.GetTeams();
+            if (teams == null) yield break;
+
+            foreach (var team in teams)
+            {
+                var players = _playerSavingService.GetPlayerNamesForTeam(team);
+                yield return new TeamViewModel
+                {
+                    Name = team,
+                    Players = players
+                };
+            }
         }
 
         public ContentResult Generate(int width, int height, string perfect)
@@ -41,63 +82,35 @@ namespace MazeSharp.Web.Controllers
             return Content(json, "application/json");
         }
 
-        [HttpPost]
-        public ActionResult UploadPlayer(HttpPostedFileBase dll)
-        {
-            var message = "Could not load assembly";
-
-            // Load player dll
-            if (dll.ContentLength > 0)
-            {
-                var fileName = Path.GetFileName(dll.FileName);
-                var path = Path.Combine(Server.MapPath("~/App_Data"), fileName);
-                dll.SaveAs(path);
-                var playerAssembly = Assembly.LoadFile(path);
-                foreach (var type in playerAssembly.GetTypes().OrderBy(t => t.Name))
-                {
-                    if (type.GetInterface("IPlayer") != null)
-                    {
-                        var player = Activator.CreateInstance(type) as IPlayer;
-                        SavePlayer((IPlayer)player);
-                        SavePlayerName(type.Name);
-                        message = type.Name + " uploaded.";
-                        return RedirectToAction("Index", new { message });
-                    }
-                }
-                message = "No player implementing IPlayer found.";
-                return RedirectToAction("Index", new { message });
-
-            }
-
-            return RedirectToAction("Index", new {message});
-        }
-
-        /// <summary>
-        /// Load external dll from form. 
-        /// Assume dll implements IPlayer interface.
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public ContentResult Move(int currentX, int currentY)
         {
             // load maze from cache
             var maze = LoadMaze(); // TODO: if maze is null return error message
 
             // load player from cache
-            var player = LoadPlayer(); // TODO: handle null
+            var player = _playerSavingService.LoadCurrentPlayerWithState(); // TODO: handle null
 
             // maze.Solve(player)
             var cell = player.Move(maze);
 
             // save state
             SaveMaze(maze);
-            SavePlayer(player);
+            _playerSavingService.SaveCurrentPlayerWithState(player);
 
             // return new position, isSolved (current position == end)
             var json = JsonConvert.SerializeObject(cell);
             //Thread.Sleep(5);
             return Content(json, "application/json");
         }
+
+        public ContentResult ChoosePlayer(string team, string playerName)
+        {
+            var player = _playerSavingService.LoadPlayer(team, playerName);
+            _playerSavingService.SaveCurrentPlayerWithState(player);
+
+            return Content("Done");
+        }
+
         #endregion
 
         #region Methods
@@ -135,37 +148,6 @@ namespace MazeSharp.Web.Controllers
             return "";
         }
 
-        private static void SavePlayer(IPlayer player)
-        {
-            var cache = MemoryCache.Default;
-            cache.Set("player", player, new CacheItemPolicy { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
-        }
-
-        private void SavePlayerName(string name)
-        {
-            var cache = MemoryCache.Default;
-            cache.Set("playerName", name, new CacheItemPolicy { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
-        }
-
-        private static IPlayer LoadPlayer()
-        {
-            var cache = MemoryCache.Default;
-            if (cache.Contains("player"))
-            {
-                return (IPlayer)cache.Get("player");
-            }
-            return new DepthFirstSearch();
-        }
-
-        private static string LoadPlayerName()
-        {
-            var cache = MemoryCache.Default;
-            if (cache.Contains("playerName"))
-            {
-                return (string)cache.Get("playerName");
-            }
-            return "LS#er";
-        }
         #endregion
 
     }

@@ -143,9 +143,7 @@ $(function () {
         seconds: 60,
         fontColor: "#FFFFFF",
         autostart: false,
-        onComplete: function () {
-            stop = true;
-        }
+        onComplete: function () { stop = true; }
     }).stop();
     $("#generate-maze").click(function () {
         var width = $("#maze-width").val();
