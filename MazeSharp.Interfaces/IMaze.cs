@@ -1,4 +1,4 @@
-﻿namespace MazeSharp.Interfaces
+﻿namespace MazeSharp.Game
 {
     public interface IMaze
     {

@@ -7,7 +7,7 @@ using System.Runtime.Caching;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 using MazeSharp.Domain.Extensions;
-using MazeSharp.Interfaces;
+using MazeSharp.Game;
 using MazeSharp.Web.Services;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MazeSharp.Interfaces;
+using MazeSharp.Game;
 
 namespace MazeSharp.Domain.Players
 {
@@ -42,45 +42,36 @@ namespace MazeSharp.Domain.Players
             */
 
             var random = new Random(DateTime.Now.Millisecond);
-            if (cell.IsStart)
-            {
-                visited.Add(cell);
-                stack.Push(cell);
-            }
+            visited.Add(cell);
+            stack.Push(cell);
             var possibleDirections = GetPossibleDirections(cell);
-            if (possibleDirections.Any())
-            {
-                var direction = possibleDirections[random.Next(possibleDirections.Count)];
-                var newPosition = GoOrientation(cell, direction);
-                stack.Push(newPosition);
-                visited.Add(newPosition);
-                cell = newPosition;
-                return newPosition;
-            }
+            if (possibleDirections.Any()) return possibleDirections[random.Next(possibleDirections.Count)];
 
-            if (stack.Count > 0)
-            {
-                var previousPosition = stack.Pop();
-                visited.Add(previousPosition);
-                cell = previousPosition;
-                return previousPosition;
-            }
+            if (stack.Count <= 0) return Direction.None; // We're back at the start and the maze is not solvable
 
-            return cell; // We're back at the start and the maze is not solvable
+            // Backtrack
+            var previousCell = stack.Pop();
+            visited.Add(previousCell);
+            return GetDirection(cell, previousCell);
         }
-        private static ICell GoOrientation(IMaze maze, Direction direction)
+
+        private static Direction GetDirection(ICell fromCell, ICell toCell)
         {
-            switch (direction)
+            if (fromCell.X == toCell.X && fromCell.Y < toCell.Y)
             {
-                case Direction.North:
-                    return maze.GoNorth();
-                case Direction.East:
-                    return maze.GoEast();
-                case Direction.South:
-                    return maze.GoSouth();
-                default:
-                    return maze.GoWest();
+                return Direction.South;
             }
+
+            if (fromCell.X == toCell.X && fromCell.Y > toCell.Y)
+            {
+                return Direction.North;
+            }
+
+            if (fromCell.X < toCell.X && fromCell.Y == toCell.Y)
+            {
+                return Direction.East;
+            }
+            return Direction.West;
         }
 
         private List<Direction> GetPossibleDirections(ICell cell)
@@ -107,24 +98,24 @@ namespace MazeSharp.Domain.Players
             return possibleDirections;
         }
 
-        private bool HasWestBeenVisited(IMaze maze)
+        private bool HasWestBeenVisited(ICell cell)
         {
-            return visited.Any(cell => cell.X == cell.X - 1 && cell.Y == cell.Y);
+            return visited.Any(c => c.X == cell.X - 1 && c.Y == cell.Y);
         }
 
-        private bool HasSouthBeenVisited(IMaze maze)
+        private bool HasSouthBeenVisited(ICell cell)
         {
-            return visited.Any(cell => cell.X == cell.X && cell.Y == cell.Y + 1);
+            return visited.Any(c => c.X == cell.X && c.Y == cell.Y + 1);
         }
 
-        private bool HasEastBeenVisited(IMaze maze)
+        private bool HasEastBeenVisited(ICell cell)
         {
-            return visited.Any(cell => cell.X == cell.X + 1 && cell.Y == cell.Y);
+            return visited.Any(c => c.X == cell.X + 1 && c.Y == cell.Y);
         }
 
-        private bool HasNorthBeenVisited(IMaze maze)
+        private bool HasNorthBeenVisited(ICell cell)
         {
-            return visited.Any(cell => cell.X == cell.X && cell.Y == cell.Y - 1);
+            return visited.Any(c => c.X == cell.X && c.Y == cell.Y - 1);
         }
     }
 }

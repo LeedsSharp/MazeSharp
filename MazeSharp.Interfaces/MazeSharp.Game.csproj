@@ -7,8 +7,8 @@
     <ProjectGuid>{3AE60326-5304-4331-A466-2E02BE677927}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MazeSharp.Interfaces</RootNamespace>
-    <AssemblyName>MazeSharp.Interfaces</AssemblyName>
+    <RootNamespace>MazeSharp.Game</RootNamespace>
+    <AssemblyName>MazeSharp.Game</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Direction.cs" />
     <Compile Include="ICell.cs" />
     <Compile Include="IMaze.cs" />
     <Compile Include="IPlayer.cs" />

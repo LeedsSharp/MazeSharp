@@ -5,7 +5,7 @@ using System.Runtime.Caching;
 using System.Web.Mvc;
 using MazeSharp.Domain;
 using MazeSharp.Domain.Extensions;
-using MazeSharp.Interfaces;
+using MazeSharp.Game;
 using MazeSharp.Web.Services;
 using MazeSharp.Web.ViewModels.Home;
 using Newtonsoft.Json;

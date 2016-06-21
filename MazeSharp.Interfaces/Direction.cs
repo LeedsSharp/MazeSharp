@@ -1,10 +1,11 @@
-﻿namespace MazeSharp.Interfaces
+﻿namespace MazeSharp.Game
 {
     public enum Direction
     {
         North,
         East,
         South,
-        West
+        West,
+        None
     }
 }

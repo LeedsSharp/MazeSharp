@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MazeSharp.Presentation", "MazeSharp.Presentation", "{0A387065-0C97-4FD4-8403-D0CAA493DDEC}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeSharp.Tests", "Maze.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeSharp.Web", "MazeSharp.Web\MazeSharp.Web.csproj", "{BD309F6C-ABE2-41C3-9E83-A2E577EDD2DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeSharp.Interfaces", "MazeSharp.Interfaces\MazeSharp.Interfaces.csproj", "{3AE60326-5304-4331-A466-2E02BE677927}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeSharp.Game", "MazeSharp.Interfaces\MazeSharp.Game.csproj", "{3AE60326-5304-4331-A466-2E02BE677927}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeSharp.Players", "MazeSharp.Players\MazeSharp.Players.csproj", "{FB62C7B3-A8AC-4855-BB26-432641E745F9}"
 EndProject

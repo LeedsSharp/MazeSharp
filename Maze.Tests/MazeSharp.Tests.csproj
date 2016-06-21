@@ -60,9 +60,9 @@
       <Project>{1F6035E4-9612-4EAC-9B7F-84E34217B87E}</Project>
       <Name>MazeSharp.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MazeSharp.Interfaces\MazeSharp.Interfaces.csproj">
+    <ProjectReference Include="..\MazeSharp.Interfaces\MazeSharp.Game.csproj">
       <Project>{3ae60326-5304-4331-a466-2e02be677927}</Project>
-      <Name>MazeSharp.Interfaces</Name>
+      <Name>MazeSharp.Game</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
