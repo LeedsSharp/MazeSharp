@@ -20,7 +20,7 @@ namespace MazeSharp.Domain.Players
         } 
         #endregion
 
-        public ICell Move(IMaze maze)
+        public Direction Move(ICell cell)
         {
             /*
             Add current cell as visited
@@ -42,19 +42,19 @@ namespace MazeSharp.Domain.Players
             */
 
             var random = new Random(DateTime.Now.Millisecond);
-            if (maze.CurrentPosition.IsStart)
+            if (cell.IsStart)
             {
-                visited.Add(maze.CurrentPosition);
-                stack.Push(maze.CurrentPosition);
+                visited.Add(cell);
+                stack.Push(cell);
             }
-            var possibleDirections = GetPossibleDirections(maze);
+            var possibleDirections = GetPossibleDirections(cell);
             if (possibleDirections.Any())
             {
                 var direction = possibleDirections[random.Next(possibleDirections.Count)];
-                var newPosition = GoOrientation(maze, direction);
+                var newPosition = GoOrientation(cell, direction);
                 stack.Push(newPosition);
                 visited.Add(newPosition);
-                maze.CurrentPosition = newPosition;
+                cell = newPosition;
                 return newPosition;
             }
 
@@ -62,46 +62,46 @@ namespace MazeSharp.Domain.Players
             {
                 var previousPosition = stack.Pop();
                 visited.Add(previousPosition);
-                maze.CurrentPosition = previousPosition;
+                cell = previousPosition;
                 return previousPosition;
             }
 
-            return maze.CurrentPosition; // We're back at the start and the maze is not solvable
+            return cell; // We're back at the start and the maze is not solvable
         }
-        private static ICell GoOrientation(IMaze maze, Compass direction)
+        private static ICell GoOrientation(IMaze maze, Direction direction)
         {
             switch (direction)
             {
-                case Compass.North:
+                case Direction.North:
                     return maze.GoNorth();
-                case Compass.East:
+                case Direction.East:
                     return maze.GoEast();
-                case Compass.South:
+                case Direction.South:
                     return maze.GoSouth();
                 default:
                     return maze.GoWest();
             }
         }
 
-        private List<Compass> GetPossibleDirections(IMaze maze)
+        private List<Direction> GetPossibleDirections(ICell cell)
         {
-            var possibleDirections = new List<Compass>();
+            var possibleDirections = new List<Direction>();
 
-            if (!maze.CurrentPosition.HasNorthWall && !HasNorthBeenVisited(maze))
+            if (!cell.HasNorthWall && !HasNorthBeenVisited(cell))
             {
-                possibleDirections.Add(Compass.North);
+                possibleDirections.Add(Direction.North);
             }
-            if (!maze.CurrentPosition.HasEastWall && !HasEastBeenVisited(maze))
+            if (!cell.HasEastWall && !HasEastBeenVisited(cell))
             {
-                possibleDirections.Add(Compass.East);
+                possibleDirections.Add(Direction.East);
             }
-            if (!maze.CurrentPosition.HasSouthWall && !HasSouthBeenVisited(maze))
+            if (!cell.HasSouthWall && !HasSouthBeenVisited(cell))
             {
-                possibleDirections.Add(Compass.South);
+                possibleDirections.Add(Direction.South);
             }
-            if (!maze.CurrentPosition.HasWestWall && !HasWestBeenVisited(maze))
+            if (!cell.HasWestWall && !HasWestBeenVisited(cell))
             {
-                possibleDirections.Add(Compass.West);
+                possibleDirections.Add(Direction.West);
             }
 
             return possibleDirections;
@@ -109,22 +109,22 @@ namespace MazeSharp.Domain.Players
 
         private bool HasWestBeenVisited(IMaze maze)
         {
-            return visited.Any(cell => cell.X == maze.CurrentPosition.X - 1 && cell.Y == maze.CurrentPosition.Y);
+            return visited.Any(cell => cell.X == cell.X - 1 && cell.Y == cell.Y);
         }
 
         private bool HasSouthBeenVisited(IMaze maze)
         {
-            return visited.Any(cell => cell.X == maze.CurrentPosition.X && cell.Y == maze.CurrentPosition.Y + 1);
+            return visited.Any(cell => cell.X == cell.X && cell.Y == cell.Y + 1);
         }
 
         private bool HasEastBeenVisited(IMaze maze)
         {
-            return visited.Any(cell => cell.X == maze.CurrentPosition.X + 1 && cell.Y == maze.CurrentPosition.Y);
+            return visited.Any(cell => cell.X == cell.X + 1 && cell.Y == cell.Y);
         }
 
         private bool HasNorthBeenVisited(IMaze maze)
         {
-            return visited.Any(cell => cell.X == maze.CurrentPosition.X && cell.Y == maze.CurrentPosition.Y - 1);
+            return visited.Any(cell => cell.X == cell.X && cell.Y == cell.Y - 1);
         }
     }
 }

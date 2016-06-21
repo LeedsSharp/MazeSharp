@@ -158,29 +158,29 @@ namespace MazeSharp.Domain
             // Neighbour is South
             if (current.X == neighbour.X && current.Y < neighbour.Y)
             {
-                current.Wall[(int)Compass.South] = false;
-                neighbour.Wall[(int)Compass.North] = false;
+                current.Wall[(int)Direction.South] = false;
+                neighbour.Wall[(int)Direction.North] = false;
                 return;
             }
             // Neighbour is North
             if (current.X == neighbour.X && current.Y > neighbour.Y)
             {
-                current.Wall[(int)Compass.North] = false;
-                neighbour.Wall[(int)Compass.South] = false;
+                current.Wall[(int)Direction.North] = false;
+                neighbour.Wall[(int)Direction.South] = false;
                 return;
 
             }
             // Neighbour is East
             if (current.Y == neighbour.Y && current.X < neighbour.X)
             {
-                current.Wall[(int)Compass.East] = false;
-                neighbour.Wall[(int)Compass.West] = false;
+                current.Wall[(int)Direction.East] = false;
+                neighbour.Wall[(int)Direction.West] = false;
                 return;
             }
 
             // Neighbour is West
-            current.Wall[(int)Compass.West] = false;
-            neighbour.Wall[(int)Compass.East] = false;
+            current.Wall[(int)Direction.West] = false;
+            neighbour.Wall[(int)Direction.East] = false;
         }
 
         private void ResetStart()

@@ -15,14 +15,14 @@ namespace MazeSharp.Domain.Players
     {
         #region Fields
         private readonly HashSet<ICell> visited;
-        private Compass orientation;
-        private readonly List<Compass> possibleDirections;
+        private Direction orientation;
+        private readonly List<Direction> possibleDirections;
         #endregion
 
         public RandomMouseWithOrientationAndMemory()
         {
             visited = new HashSet<ICell>();
-            possibleDirections = new List<Compass>();
+            possibleDirections = new List<Direction>();
         }
 
         public ICell Move(IMaze maze)
@@ -42,19 +42,19 @@ namespace MazeSharp.Domain.Players
 
             if (!maze.CurrentPosition.HasNorthWall && !HasNorthBeenVisited(maze))
             {
-                possibleDirections.Add(Compass.North);
+                possibleDirections.Add(Direction.North);
             }
             if (!maze.CurrentPosition.HasEastWall && !HasEastBeenVisited(maze))
             {
-                possibleDirections.Add(Compass.East);
+                possibleDirections.Add(Direction.East);
             }
             if (!maze.CurrentPosition.HasSouthWall && !HasSouthBeenVisited(maze))
             {
-                possibleDirections.Add(Compass.South);
+                possibleDirections.Add(Direction.South);
             }
             if (!maze.CurrentPosition.HasWestWall && !HasWestBeenVisited(maze))
             {
-                possibleDirections.Add(Compass.West);
+                possibleDirections.Add(Direction.West);
             }
         }
 
@@ -64,19 +64,19 @@ namespace MazeSharp.Domain.Players
 
             if (!maze.CurrentPosition.HasNorthWall)
             {
-                possibleDirections.Add(Compass.North);
+                possibleDirections.Add(Direction.North);
             }
             if (!maze.CurrentPosition.HasEastWall)
             {
-                possibleDirections.Add(Compass.East);
+                possibleDirections.Add(Direction.East);
             }
             if (!maze.CurrentPosition.HasSouthWall)
             {
-                possibleDirections.Add(Compass.South);
+                possibleDirections.Add(Direction.South);
             }
             if (!maze.CurrentPosition.HasWestWall)
             {
-                possibleDirections.Add(Compass.West);
+                possibleDirections.Add(Direction.West);
             }
         }
 
@@ -104,11 +104,11 @@ namespace MazeSharp.Domain.Players
         {
             switch (orientation)
             {
-                case Compass.North:
+                case Direction.North:
                     return !maze.CurrentPosition.HasNorthWall ? maze.GoNorth() : GoRandomDirection(maze);
-                case Compass.East:
+                case Direction.East:
                     return !maze.CurrentPosition.HasEastWall ? maze.GoEast() : GoRandomDirection(maze);
-                case Compass.South:
+                case Direction.South:
                     return !maze.CurrentPosition.HasSouthWall ? maze.GoSouth() : GoRandomDirection(maze);
                 default:
                     return !maze.CurrentPosition.HasWestWall ? maze.GoWest() : GoRandomDirection(maze);
@@ -131,17 +131,17 @@ namespace MazeSharp.Domain.Players
         {
             switch (possibleDirections[randomDirection])
             {
-                case Compass.North:
-                    orientation = Compass.North;
+                case Direction.North:
+                    orientation = Direction.North;
                     return maze.GoNorth();
-                case Compass.East:
-                    orientation = Compass.East;
+                case Direction.East:
+                    orientation = Direction.East;
                     return maze.GoEast();
-                case Compass.South:
-                    orientation = Compass.South;
+                case Direction.South:
+                    orientation = Direction.South;
                     return maze.GoSouth();
                 default:
-                    orientation = Compass.West;
+                    orientation = Direction.West;
                     return maze.GoWest();
             }
         }

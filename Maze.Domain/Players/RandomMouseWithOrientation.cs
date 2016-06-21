@@ -14,7 +14,7 @@ namespace MazeSharp.Domain.Players
     public class RandomMouseWithOrientation : IPlayer
     {
         #region Fields
-        private Compass orientation;
+        private Direction orientation;
         #endregion
 
         #region Implementation of IPlayer
@@ -30,11 +30,11 @@ namespace MazeSharp.Domain.Players
         {
             switch (orientation)
             {
-                case Compass.North:
+                case Direction.North:
                     return !maze.CurrentPosition.HasNorthWall ? maze.GoNorth() : GoRandomDirection(maze);
-                case Compass.East:
+                case Direction.East:
                     return !maze.CurrentPosition.HasEastWall ? maze.GoEast() : GoRandomDirection(maze);
-                case Compass.South:
+                case Direction.South:
                     return !maze.CurrentPosition.HasSouthWall ? maze.GoSouth() : GoRandomDirection(maze);
                 default:
                     return !maze.CurrentPosition.HasWestWall ? maze.GoWest() : GoRandomDirection(maze);
@@ -53,16 +53,16 @@ namespace MazeSharp.Domain.Players
             switch (randomDirection)
             {
                 case 0:
-                    orientation = Compass.North;
+                    orientation = Direction.North;
                     return maze.GoNorth();
                 case 1:
-                    orientation = Compass.East;
+                    orientation = Direction.East;
                     return maze.GoEast();
                 case 2:
-                    orientation = Compass.South;
+                    orientation = Direction.South;
                     return maze.GoSouth();
                 default:
-                    orientation = Compass.West;
+                    orientation = Direction.West;
                     return maze.GoWest();
             }
         } 
