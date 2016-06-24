@@ -91,7 +91,7 @@ namespace MazeSharp.Web.Controllers
             var player = _playerSavingService.LoadCurrentPlayerWithState(); // TODO: handle null
 
             // maze.Solve(player)
-            var cell = player.Move(maze);
+            var cell = player.Move(maze.CurrentPosition);
 
             // save state
             SaveMaze(maze);

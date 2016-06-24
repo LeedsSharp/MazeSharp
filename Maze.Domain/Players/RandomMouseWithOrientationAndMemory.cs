@@ -25,125 +25,111 @@ namespace MazeSharp.Domain.Players
             possibleDirections = new List<Direction>();
         }
 
-        public ICell Move(IMaze maze)
+        public Direction Move(ICell cell)
         {
             // Remember current location
-            visited.Add(maze.CurrentPosition);
+            visited.Add(cell);
 
-            GetPossibleDirections(maze);
+            GetPossibleDirections(cell);
 
             // Try to continue in the same direction as previous move
-            return GoOrientation(maze);
+            return GoOrientation(cell);
         }
 
-        private void GetPossibleDirections(IMaze maze)
+        private void GetPossibleDirections(ICell cell)
         {
             possibleDirections.Clear();
 
-            if (!maze.CurrentPosition.HasNorthWall && !HasNorthBeenVisited(maze))
+            if (!cell.HasNorthWall && !HasNorthBeenVisited(cell))
             {
                 possibleDirections.Add(Direction.North);
             }
-            if (!maze.CurrentPosition.HasEastWall && !HasEastBeenVisited(maze))
+            if (!cell.HasEastWall && !HasEastBeenVisited(cell))
             {
                 possibleDirections.Add(Direction.East);
             }
-            if (!maze.CurrentPosition.HasSouthWall && !HasSouthBeenVisited(maze))
+            if (!cell.HasSouthWall && !HasSouthBeenVisited(cell))
             {
                 possibleDirections.Add(Direction.South);
             }
-            if (!maze.CurrentPosition.HasWestWall && !HasWestBeenVisited(maze))
+            if (!cell.HasWestWall && !HasWestBeenVisited(cell))
             {
                 possibleDirections.Add(Direction.West);
             }
         }
 
-        private void GetPossibleDirectionsWithVisited(IMaze maze)
+        private void GetPossibleDirectionsWithVisited(ICell cell)
         {
             possibleDirections.Clear();
 
-            if (!maze.CurrentPosition.HasNorthWall)
+            if (!cell.HasNorthWall)
             {
                 possibleDirections.Add(Direction.North);
             }
-            if (!maze.CurrentPosition.HasEastWall)
+            if (!cell.HasEastWall)
             {
                 possibleDirections.Add(Direction.East);
             }
-            if (!maze.CurrentPosition.HasSouthWall)
+            if (!cell.HasSouthWall)
             {
                 possibleDirections.Add(Direction.South);
             }
-            if (!maze.CurrentPosition.HasWestWall)
+            if (!cell.HasWestWall)
             {
                 possibleDirections.Add(Direction.West);
             }
         }
 
-        private bool HasWestBeenVisited(IMaze maze)
+        private bool HasWestBeenVisited(ICell currentCell)
         {
-            return visited.Any(cell => cell.X == maze.CurrentPosition.X - 1 && cell.Y == maze.CurrentPosition.Y);
+            return visited.Any(cell => cell.X == currentCell.X - 1 && cell.Y == currentCell.Y);
         }
 
-        private bool HasSouthBeenVisited(IMaze maze)
+        private bool HasSouthBeenVisited(ICell currentCell)
         {
-            return visited.Any(cell => cell.X == maze.CurrentPosition.X && cell.Y == maze.CurrentPosition.Y + 1);
+            return visited.Any(cell => cell.X == currentCell.X && cell.Y == currentCell.Y + 1);
         }
 
-        private bool HasEastBeenVisited(IMaze maze)
+        private bool HasEastBeenVisited(ICell currentCell)
         {
-            return visited.Any(cell => cell.X == maze.CurrentPosition.X + 1 && cell.Y == maze.CurrentPosition.Y);
+            return visited.Any(cell => cell.X == currentCell.X + 1 && cell.Y == currentCell.Y);
         }
 
-        private bool HasNorthBeenVisited(IMaze maze)
+        private bool HasNorthBeenVisited(ICell currentCell)
         {
-            return visited.Any(cell => cell.X == maze.CurrentPosition.X && cell.Y == maze.CurrentPosition.Y - 1);
+            return visited.Any(cell => cell.X == currentCell.X && cell.Y == currentCell.Y - 1);
         }
 
-        private ICell GoOrientation(IMaze maze)
+        private Direction GoOrientation(ICell currentCell)
         {
             switch (orientation)
             {
                 case Direction.North:
-                    return !maze.CurrentPosition.HasNorthWall ? maze.GoNorth() : GoRandomDirection(maze);
+                    return !currentCell.HasNorthWall ? Direction.North : GoRandomDirection(currentCell);
                 case Direction.East:
-                    return !maze.CurrentPosition.HasEastWall ? maze.GoEast() : GoRandomDirection(maze);
+                    return !currentCell.HasEastWall ? Direction.East : GoRandomDirection(currentCell);
                 case Direction.South:
-                    return !maze.CurrentPosition.HasSouthWall ? maze.GoSouth() : GoRandomDirection(maze);
+                    return !currentCell.HasSouthWall ? Direction.South : GoRandomDirection(currentCell);
                 default:
-                    return !maze.CurrentPosition.HasWestWall ? maze.GoWest() : GoRandomDirection(maze);
+                    return !currentCell.HasWestWall ? Direction.West : GoRandomDirection(currentCell);
             }
         }
 
-        private ICell GoRandomDirection(IMaze maze)
+        private Direction GoRandomDirection(ICell currentCell)
         {
             var randomiser = new Random(DateTime.Now.Millisecond);
             if (possibleDirections.Count == 0)
             {
-                GetPossibleDirectionsWithVisited(maze);
+                GetPossibleDirectionsWithVisited(currentCell);
             }
             var randomDirection = randomiser.Next(possibleDirections.Count);
-            return GoDirection(maze, randomDirection);
+            return GoDirection(randomDirection);
 
         }
 
-        private ICell GoDirection(IMaze maze, int randomDirection)
+        private Direction GoDirection(int randomDirection)
         {
-            switch (possibleDirections[randomDirection])
-            {
-                case Direction.North:
-                    orientation = Direction.North;
-                    return maze.GoNorth();
-                case Direction.East:
-                    orientation = Direction.East;
-                    return maze.GoEast();
-                case Direction.South:
-                    orientation = Direction.South;
-                    return maze.GoSouth();
-                default:
-                    orientation = Direction.West;
-                    return maze.GoWest();
-            }
+            return possibleDirections[randomDirection];
         }
     }
 }
