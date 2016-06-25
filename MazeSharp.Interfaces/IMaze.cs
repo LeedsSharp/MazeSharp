@@ -7,5 +7,6 @@
         ICell GoEast();
         ICell GoSouth();
         ICell GoWest();
+        ICell Move(Direction direction);
     }
 }

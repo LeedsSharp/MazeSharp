@@ -19,7 +19,7 @@ namespace MazeSharp.Web.Controllers
 {
     public class CodeEditorController : Controller
     {
-        private const string StartSource = "using MazeSharp.Interfaces;\r\n\r\nnamespace YourTeamName\r\n{\r\n    public class StandStillPlayer : IPlayer\r\n    {\r\n        public ICell Move(IMaze maze)\r\n        {\r\n            return maze.CurrentPosition;\r\n        }\r\n    }\r\n}";
+        private const string StartSource = "using MazeSharp.Game;\r\n\r\nnamespace YourTeamName\r\n{\r\n    public class StandStillPlayer : IPlayer\r\n    {\r\n        public Direction Move(ICell currentCell)\r\n        {\r\n            return Direction.None;\r\n        }\r\n    }\r\n}";
         private readonly IPlayerSavingService<IPlayer> _playerSavingService; 
 
         public CodeEditorController()
