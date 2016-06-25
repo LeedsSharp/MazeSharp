@@ -1,4 +1,4 @@
-﻿namespace MazeSharp.Interfaces
+﻿namespace MazeSharp.Game
 {
     public interface IMaze
     {
@@ -7,5 +7,6 @@
         ICell GoEast();
         ICell GoSouth();
         ICell GoWest();
+        ICell Move(Direction direction);
     }
 }

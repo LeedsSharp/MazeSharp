@@ -1,4 +1,4 @@
-﻿using MazeSharp.Interfaces;
+﻿using MazeSharp.Game;
 
 namespace MazeSharp.Domain.Extensions
 {

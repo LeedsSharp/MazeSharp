@@ -27,7 +27,7 @@ namespace MazeSharp.Cerbot {
             Program.Mainboard = new GHIElectronics.Gadgeteer.FEZCerbot();
             Program p = new Program();
             p.InitializeModules();
-            p.ProgramStarted();
+            //p.ProgramStarted();
             // Starts Dispatcher
             p.Run();
         }

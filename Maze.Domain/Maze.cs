@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
-using MazeSharp.Interfaces;
+using MazeSharp.Game;
 
 namespace MazeSharp.Domain
 {
@@ -150,6 +150,23 @@ namespace MazeSharp.Domain
             return CurrentPosition;
         }
 
+        public ICell Move(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.North:
+                    return GoNorth();
+                case Direction.East:
+                    return GoEast();
+                case Direction.South:
+                    return GoSouth();
+                case Direction.West:
+                    return GoWest();
+                default:
+                    return CurrentPosition;
+            }
+        }
+
         private void KnockWall(Cell current, Cell neighbour)
         {
             // TODO: Which wall leads to the neighbour?
@@ -158,29 +175,28 @@ namespace MazeSharp.Domain
             // Neighbour is South
             if (current.X == neighbour.X && current.Y < neighbour.Y)
             {
-                current.Wall[(int)Compass.South] = false;
-                neighbour.Wall[(int)Compass.North] = false;
+                current.Wall[(int) Direction.South] = false;
+                neighbour.Wall[(int) Direction.North] = false;
                 return;
             }
             // Neighbour is North
             if (current.X == neighbour.X && current.Y > neighbour.Y)
             {
-                current.Wall[(int)Compass.North] = false;
-                neighbour.Wall[(int)Compass.South] = false;
+                current.Wall[(int) Direction.North] = false;
+                neighbour.Wall[(int) Direction.South] = false;
                 return;
-
             }
             // Neighbour is East
             if (current.Y == neighbour.Y && current.X < neighbour.X)
             {
-                current.Wall[(int)Compass.East] = false;
-                neighbour.Wall[(int)Compass.West] = false;
+                current.Wall[(int) Direction.East] = false;
+                neighbour.Wall[(int) Direction.West] = false;
                 return;
             }
 
             // Neighbour is West
-            current.Wall[(int)Compass.West] = false;
-            neighbour.Wall[(int)Compass.East] = false;
+            current.Wall[(int) Direction.West] = false;
+            neighbour.Wall[(int) Direction.East] = false;
         }
 
         private void ResetStart()
@@ -246,9 +262,11 @@ namespace MazeSharp.Domain
 
             return neighbours;
         }
+
         #endregion
 
         #region Test methods
+
         public List<Cell> TestGetNeighbours(Cell cell)
         {
             return GetNeighbours(cell);
@@ -258,6 +276,7 @@ namespace MazeSharp.Domain
         {
             KnockWall(current, neighbour);
         }
+
         #endregion
 
         public void Generate(int seed, bool isPerfect)

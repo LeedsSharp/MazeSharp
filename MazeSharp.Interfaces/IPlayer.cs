@@ -1,7 +1,7 @@
-﻿namespace MazeSharp.Interfaces
+﻿namespace MazeSharp.Game
 {
     public interface IPlayer
     {
-        ICell Move(IMaze maze);
+        Direction Move(ICell cell);
     }
 }

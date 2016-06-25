@@ -1,5 +1,5 @@
 ﻿using System;
-using MazeSharp.Interfaces;
+using MazeSharp.Game;
 
 namespace MazeSharp.Domain.Players
 {
@@ -12,30 +12,30 @@ namespace MazeSharp.Domain.Players
     /// </summary>
     public class RandomMouse : IPlayer
     {
-        public ICell Move(IMaze maze)
+        public Direction Move(ICell cell)
         {
-            return GoRandomDirection(maze);
+            return GoRandomDirection(cell);
         }
 
-        private static ICell GoRandomDirection(IMaze maze)
+        private static Direction GoRandomDirection(ICell cell)
         {
             var randomiser = new Random(DateTime.Now.Millisecond);
             var randomDirection = randomiser.Next(4);
-            return GoDirection(maze, randomDirection);
+            return GoDirection(cell, randomDirection);
         }
 
-        private static ICell GoDirection(IMaze maze, int randomDirection)
+        private static Direction GoDirection(ICell cell, int randomDirection)
         {
             switch (randomDirection)
             {
                 case 0:
-                    return maze.GoNorth();
+                    return Direction.North;
                 case 1:
-                    return maze.GoEast();
+                    return Direction.East;
                 case 2:
-                    return maze.GoSouth();
+                    return Direction.South;
                 default:
-                    return maze.GoWest();
+                    return Direction.West;
             }
         }
     }

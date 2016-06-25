@@ -1,5 +1,5 @@
 ﻿using System.Web.Script.Serialization;
-using MazeSharp.Interfaces;
+using MazeSharp.Game;
 
 namespace MazeSharp.Domain
 {

@@ -5,7 +5,7 @@ using System.Runtime.Caching;
 using System.Web.Mvc;
 using MazeSharp.Domain;
 using MazeSharp.Domain.Extensions;
-using MazeSharp.Interfaces;
+using MazeSharp.Game;
 using MazeSharp.Web.Services;
 using MazeSharp.Web.ViewModels.Home;
 using Newtonsoft.Json;
@@ -90,8 +90,9 @@ namespace MazeSharp.Web.Controllers
             // load player from cache
             var player = _playerSavingService.LoadCurrentPlayerWithState(); // TODO: handle null
 
-            // maze.Solve(player)
-            var cell = player.Move(maze);
+
+            var direction = player.Move(maze.CurrentPosition);
+            var cell = maze.Move(direction);
 
             // save state
             SaveMaze(maze);

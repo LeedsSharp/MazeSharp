@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using MazeSharp.Interfaces;
+using MazeSharp.Game;
 
 namespace MazeSharp.Domain.Players
 {
@@ -14,56 +13,52 @@ namespace MazeSharp.Domain.Players
     public class RandomMouseWithOrientation : IPlayer
     {
         #region Fields
-        private Compass orientation;
+        private Direction orientation = Direction.None;
         #endregion
 
         #region Implementation of IPlayer
-        public ICell Move(IMaze maze)
+        public Direction Move(ICell cell)
         {
             // Try to continue in the same direction as previous move
-            return GoOrientation(maze);
+            return GoOrientation(cell);
         }
         #endregion
 
         #region Methods
-        private ICell GoOrientation(IMaze maze)
+        private Direction GoOrientation(ICell cell)
         {
             switch (orientation)
             {
-                case Compass.North:
-                    return !maze.CurrentPosition.HasNorthWall ? maze.GoNorth() : GoRandomDirection(maze);
-                case Compass.East:
-                    return !maze.CurrentPosition.HasEastWall ? maze.GoEast() : GoRandomDirection(maze);
-                case Compass.South:
-                    return !maze.CurrentPosition.HasSouthWall ? maze.GoSouth() : GoRandomDirection(maze);
+                case Direction.North:
+                    return !cell.HasNorthWall ? Direction.North : GoRandomDirection(cell);
+                case Direction.East:
+                    return !cell.HasEastWall ? Direction.East : GoRandomDirection(cell);
+                case Direction.South:
+                    return !cell.HasSouthWall ? Direction.South : GoRandomDirection(cell);
                 default:
-                    return !maze.CurrentPosition.HasWestWall ? maze.GoWest() : GoRandomDirection(maze);
+                    return !cell.HasWestWall ? Direction.West : GoRandomDirection(cell);
             }
         }
 
-        private ICell GoRandomDirection(IMaze maze)
+        private Direction GoRandomDirection(ICell cell)
         {
             var randomiser = new Random(DateTime.Now.Millisecond);
             var randomDirection = randomiser.Next(4);
-            return GoDirection(maze, randomDirection);
+            return GoDirection(cell, randomDirection);
         }
 
-        private ICell GoDirection(IMaze maze, int randomDirection)
+        private Direction GoDirection(ICell cell, int randomDirection)
         {
             switch (randomDirection)
             {
                 case 0:
-                    orientation = Compass.North;
-                    return maze.GoNorth();
+                    return Direction.North;
                 case 1:
-                    orientation = Compass.East;
-                    return maze.GoEast();
+                    return Direction.East;
                 case 2:
-                    orientation = Compass.South;
-                    return maze.GoSouth();
+                    return Direction.South;
                 default:
-                    orientation = Compass.West;
-                    return maze.GoWest();
+                    return Direction.West;
             }
         } 
         #endregion

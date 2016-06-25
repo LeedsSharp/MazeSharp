@@ -63,12 +63,6 @@
     <Reference Include="GHIElectronics.Gadgeteer.FEZCerbot, Version=4.2.110.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="MazeSharp.Interfaces">
-      <HintPath>..\MazeSharp.Interfaces\bin\Debug\MazeSharp.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="MazeSharp.Players">
-      <HintPath>..\MazeSharp.Players\bin\Debug\MazeSharp.Players.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.SPOT.Graphics" />
     <Reference Include="Microsoft.SPOT.Native" />
     <Reference Include="mscorlib" />
