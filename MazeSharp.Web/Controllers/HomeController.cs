@@ -14,11 +14,11 @@ namespace MazeSharp.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IPlayerSavingService<IPlayer> _playerSavingService;
+        private readonly IPlayerSavingService<IPlayer> playerSavingService;
 
         public HomeController()
         {
-            _playerSavingService = new PlayerSavingService<IPlayer>();
+            playerSavingService = new PlayerSavingService<IPlayer>();
         }
 
 
@@ -30,17 +30,17 @@ namespace MazeSharp.Web.Controllers
 
             if (!string.IsNullOrWhiteSpace(player) && !string.IsNullOrWhiteSpace(team))
             {
-                loadedPlayer = _playerSavingService.LoadPlayer(team, player);
+                loadedPlayer = playerSavingService.LoadPlayer(team, player);
                 if (loadedPlayer != null)
                 {
-                    _playerSavingService.SaveCurrentPlayerWithState(loadedPlayer);
+                    playerSavingService.SaveCurrentPlayerWithState(loadedPlayer);
                     message = $"Loaded player {player} from team {team}";
                 }
             }
 
             if (loadedPlayer == null)
             {
-                loadedPlayer = _playerSavingService.LoadCurrentPlayerWithState();
+                loadedPlayer = playerSavingService.LoadCurrentPlayerWithState();
             }
 
             var viewModel = new IndexViewModel("Maze Sharp")
@@ -56,12 +56,12 @@ namespace MazeSharp.Web.Controllers
 
         private IEnumerable<TeamViewModel> GetCurrentTeams()
         {
-            var teams = _playerSavingService.GetTeams();
+            var teams = playerSavingService.GetTeams();
             if (teams == null) yield break;
 
             foreach (var team in teams)
             {
-                var players = _playerSavingService.GetPlayerNamesForTeam(team);
+                var players = playerSavingService.GetPlayerNamesForTeam(team);
                 yield return new TeamViewModel
                 {
                     Name = team,
@@ -88,7 +88,7 @@ namespace MazeSharp.Web.Controllers
             var maze = LoadMaze(); // TODO: if maze is null return error message
 
             // load player from cache
-            var player = _playerSavingService.LoadCurrentPlayerWithState(); // TODO: handle null
+            var player = playerSavingService.LoadCurrentPlayerWithState(); // TODO: handle null
 
 
             var direction = player.Move(maze.CurrentPosition);
@@ -96,7 +96,7 @@ namespace MazeSharp.Web.Controllers
 
             // save state
             SaveMaze(maze);
-            _playerSavingService.SaveCurrentPlayerWithState(player);
+            playerSavingService.SaveCurrentPlayerWithState(player);
 
             // return new position, isSolved (current position == end)
             var json = JsonConvert.SerializeObject(cell);
@@ -106,8 +106,8 @@ namespace MazeSharp.Web.Controllers
 
         public ContentResult ChoosePlayer(string team, string playerName)
         {
-            var player = _playerSavingService.LoadPlayer(team, playerName);
-            _playerSavingService.SaveCurrentPlayerWithState(player);
+            var player = playerSavingService.LoadPlayer(team, playerName);
+            playerSavingService.SaveCurrentPlayerWithState(player);
 
             return Content("Done");
         }
