@@ -112,16 +112,17 @@ function move(cell) {
     var currentPosition = maze.Cells[maze.CurrentPosition.X][maze.CurrentPosition.Y];
     var divCurrent = currentPosition.divElement;
     $(divCurrent).removeClass("player");
-    $(divCurrent).addClass("visited");
+    if ($(divCurrent).hasClass("visited")) {
+        $(divCurrent).addClass("backtracked");
+    }
+    else {
+        $(divCurrent).addClass("visited");
+    }
     var nextPosition = maze.Cells[cell.X][cell.Y];
     var divNext = nextPosition.divElement;
     // if next position has visited class already then add backtracked class instead of player class
-    if ($(divNext).hasClass("visited")) {
-        $(divNext).removeClass("visited");
-        $(divNext).addClass("backtracked");
-    }
-    else {
-        $(divNext).addClass("player");
+    $(divNext).addClass("player");
+    if (!$(divNext).hasClass("visited")) {
         visited++;
     }
     var efficiency = visited / totalMoves;
@@ -133,17 +134,24 @@ function move(cell) {
     });
     maze.CurrentPosition.X = nextPosition.X;
     maze.CurrentPosition.Y = nextPosition.Y;
-    if (!((maze.CurrentPosition.X === maze.End.X && maze.CurrentPosition.Y === maze.End.Y) || stop === true)) {
+    if (cell.IsExit) {
+        alert("You solved it!");
+        stop = true;
+    }
+    else {
         getNextMove();
     }
 }
 $(function () {
     $("#countdown").countdown360({
-        radius: 60,
+        radius: 30,
         seconds: 60,
         fontColor: "#FFFFFF",
         autostart: false,
-        onComplete: function () { stop = true; }
+        onComplete: function () {
+            alert("You solved it!");
+            stop = true;
+        }
     }).stop();
     $("#generate-maze").click(function () {
         var width = $("#maze-width").val();

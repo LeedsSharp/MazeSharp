@@ -41,19 +41,21 @@
   border-bottom: 1px solid transparent;
 }
 
-.player {
+.visited {
   background-position: center center;
   background-image: url(/img/player-2.png);
 }
 
-.visited {
-  background-position: center center;
-  background-image: url(/img/visited-2.png);
+.backtracked {
+    background-position: center center;
+  background-image: url(/img/backtracked.png);
+    -ms-opacity: 0.5;
+    opacity: 0.5;
 }
 
-.backtracked {
+.player {
   background-position: center center;
-  background-image: url(/img/backtracked.png);
+  background-image: url(/img/visited-2.png);
 }
 
 .logo {
