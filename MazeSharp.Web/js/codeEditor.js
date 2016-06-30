@@ -20,6 +20,7 @@ $(function () {
                 }
             }
         });
+        cm.setSize(800, 600);
         // reindent on paste (adapted from https://github.com/ahuth/brackets-paste-and-indent/blob/master/main.js)
         cm.on("change", function (codeMirror, change) {
             if (change.origin !== "paste") {
