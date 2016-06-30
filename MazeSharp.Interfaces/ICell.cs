@@ -9,7 +9,7 @@
         bool HasSouthWall { get; }
         bool HasWestWall { get; }
 
-        bool IsStart { get; set; }
-        bool IsExit { get; set; }
+        bool IsStart { get; }
+        bool IsExit { get; }
     }
 }
