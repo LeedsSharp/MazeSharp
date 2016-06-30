@@ -130,7 +130,7 @@ function getNextMove() {
 function move(cell) {
     totalMoves++;
 
-    console.log(totalMoves);
+    //console.log(totalMoves);
     var currentPosition = maze.Cells[maze.CurrentPosition.X][maze.CurrentPosition.Y];
     var divCurrent = currentPosition.divElement;
     $(divCurrent).removeClass("player");
@@ -150,7 +150,7 @@ function move(cell) {
     var efficiency = visited / totalMoves;
     $("#visited-number").html(visited);
     $("#total-moves").html(totalMoves);
-    $("#algorithm-efficiency").html(efficiency.toString());
+    $("#algorithm-efficiency").html(efficiency.toFixed(4));
     $("#visited-counter").circleProgress({
         value: visited / totalMoves
     });
@@ -158,9 +158,10 @@ function move(cell) {
     maze.CurrentPosition.X = nextPosition.X;
     maze.CurrentPosition.Y = nextPosition.Y;
     if (cell.IsExit) {
-        alert("You solved it!");
+        $("#countdown").countdown360().stop();
         stop = true;
-    } else {
+        alert("You solved it!");
+    } else if (!stop) {
         getNextMove();
     }
 }
@@ -173,7 +174,6 @@ $(() => {
         fontColor: "#FFFFFF",
         autostart: false,
         onComplete() {
-            alert("You solved it!");
             stop = true;
         }
     }).stop();
@@ -196,10 +196,10 @@ $(() => {
     });
 
     $('#player').change(function () {
-        console.log($(this).val());
-        console.log(this.files[0].pathname);
-        console.log(this.files[0].filename);
-        console.log(this.files[0].mozFullPath);
+        //console.log($(this).val());
+        //console.log(this.files[0].pathname);
+        //console.log(this.files[0].filename);
+        //console.log(this.files[0].mozFullPath);
     });
 
     $("#clear-maze").click(() => {

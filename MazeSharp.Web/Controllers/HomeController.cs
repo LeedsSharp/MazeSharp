@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
+using System.Threading;
 using System.Web.Mvc;
 using MazeSharp.Domain;
 using MazeSharp.Domain.Extensions;
@@ -100,7 +101,8 @@ namespace MazeSharp.Web.Controllers
 
             // return new position, isSolved (current position == end)
             var json = JsonConvert.SerializeObject(cell);
-            //Thread.Sleep(5);
+
+            Thread.Sleep(60);
             return Content(json, "application/json");
         }
 

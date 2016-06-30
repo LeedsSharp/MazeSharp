@@ -122,10 +122,6 @@ namespace MazeSharp.Domain
 
         public bool IsPerfect { get; set; }
 
-        public void Solve(IPlayer player)
-        {
-            // TODO
-        }
         public ICell GoNorth()
         {
             if (!CurrentPosition.HasNorthWall && CurrentPosition.Y > 0) CurrentPosition = Cells[CurrentPosition.X, CurrentPosition.Y - 1];

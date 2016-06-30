@@ -43,14 +43,12 @@
 
 .visited {
   background-position: center center;
-  background-image: url(/img/player-2.png);
+  background-image: url(/img/visited.png);
 }
 
 .backtracked {
     background-position: center center;
-  background-image: url(/img/backtracked.png);
-    -ms-opacity: 0.5;
-    opacity: 0.5;
+  background-image: url(/img/visited.png);
 }
 
 .player {
@@ -71,7 +69,8 @@
 }
 
 #box {
-  margin: 0 auto 30px;
+  /*margin: 0 auto 30px;*/
+    margin-top: 64px;
   overflow: hidden;
   padding-bottom: 1px;
   background-color: #fff;
