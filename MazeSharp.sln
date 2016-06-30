@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeSharp.Tests", "Maze.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeSharp.Web", "MazeSharp.Web\MazeSharp.Web.csproj", "{BD309F6C-ABE2-41C3-9E83-A2E577EDD2DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeSharp.Game", "MazeSharp.Interfaces\MazeSharp.Game.csproj", "{3AE60326-5304-4331-A466-2E02BE677927}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeSharp.Game", "MazeSharp.Game\MazeSharp.Game.csproj", "{3AE60326-5304-4331-A466-2E02BE677927}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeSharp.Players", "MazeSharp.Players\MazeSharp.Players.csproj", "{FB62C7B3-A8AC-4855-BB26-432641E745F9}"
 EndProject

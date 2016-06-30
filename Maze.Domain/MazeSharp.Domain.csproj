@@ -54,7 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MazeSharp.Interfaces\MazeSharp.Game.csproj">
+    <ProjectReference Include="..\MazeSharp.Game\MazeSharp.Game.csproj">
       <Project>{3AE60326-5304-4331-A466-2E02BE677927}</Project>
       <Name>MazeSharp.Game</Name>
     </ProjectReference>
