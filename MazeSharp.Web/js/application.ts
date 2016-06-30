@@ -152,7 +152,7 @@ function move(cell) {
     $("#total-moves").html(totalMoves);
     $("#algorithm-efficiency").html(efficiency.toFixed(4));
     $("#visited-counter").circleProgress({
-        value: visited / totalMoves
+        value: (visited / totalMoves) * 10
     });
 
     maze.CurrentPosition.X = nextPosition.X;
