@@ -17,13 +17,44 @@
             }
         </ul>
     }
-    
+
     <ul id="player-errors"></ul>
     <div class="code">
         <textarea name="Source" id="code">@Model.Source</textarea>
     </div>
-    <button type="submit" name="submit" style="float: left">Compile</button>
+    <button type="submit" name="submit" class="btn btn-success">Compile</button>
 </form>
+
+<br/>
+<pre>
+    interface iCell
+    {
+        int X { get; set; }
+        int Y { get; set; }
+        bool HasNorthWall { get; }
+        bool HasEastWall { get; }
+        bool HasSouthWall { get; }
+        bool HasWestWall { get; }
+        bool IsStart { get; }
+        bool IsExit { get; }
+    }
+
+    interface IPlayer
+    {
+        Direction Move(ICell cell);
+    }
+
+    enum Direction
+    {
+        North,
+        East,
+        South,
+        West,
+        None
+    }
+    </pre>
+
+
 
 @section ExtraCss {
     <link rel="stylesheet" href="/libs/codemirror/codemirror.css">
