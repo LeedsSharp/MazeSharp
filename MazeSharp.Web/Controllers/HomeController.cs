@@ -121,8 +121,7 @@ namespace MazeSharp.Web.Controllers
 
         private static void SaveMaze(IMaze maze)
         {
-            var cache = MemoryCache.Default;
-            cache.Set("maze", maze, new CacheItemPolicy { AbsoluteExpiration = DateTimeOffset.Now.AddDays(1) });
+            System.Web.HttpContext.Current.Session["maze"] = maze;
         }
 
         private static void SaveMazeJson(string json)
@@ -133,12 +132,7 @@ namespace MazeSharp.Web.Controllers
 
         private static IMaze LoadMaze()
         {
-            var cache = MemoryCache.Default;
-            if (cache.Contains("maze"))
-            {
-                return (IMaze)cache.Get("maze");
-            }
-            return null;
+            return (IMaze)System.Web.HttpContext.Current.Session["maze"];
         }
 
         private static string LoadMazeJson()
