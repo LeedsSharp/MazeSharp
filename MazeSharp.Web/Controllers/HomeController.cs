@@ -80,6 +80,9 @@ namespace MazeSharp.Web.Controllers
 
             var json = JsonConvert.SerializeObject(maze);
             SaveMazeJson(json);
+
+            playerSavingService.ResetCurrentSavedPlayerState();
+
             return Content(json, "application/json");
         }
 

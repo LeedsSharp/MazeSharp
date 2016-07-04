@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Web;
+using MazeSharp.Game;
 
 namespace MazeSharp.Web.Services
 {
-    public class PlayerSavingService<T> : IPlayerSavingService<T>
+    public class PlayerSavingService<T> : IPlayerSavingService<T> where T : class
     {
         private readonly object _teamListSaveLock = new object();
         private readonly object _playerListSaveLock = new object();
@@ -45,6 +46,15 @@ namespace MazeSharp.Web.Services
         {
             var key = KeyForPlayerList(teamName);
             return _cache[key] as IList<string>;
+        }
+
+        public void ResetCurrentSavedPlayerState()
+        {
+            var currentPlayer = LoadCurrentPlayerWithState();
+            if (currentPlayer == null) return;
+
+            currentPlayer = Activator.CreateInstance(currentPlayer.GetType()) as T;
+            SaveCurrentPlayerWithState(currentPlayer);
         }
 
         public void SaveCurrentPlayerWithState(T player)

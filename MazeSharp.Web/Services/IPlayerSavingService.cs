@@ -6,10 +6,12 @@ namespace MazeSharp.Web.Services
     {
         T LoadPlayer(string team, string playerName);
         T LoadCurrentPlayerWithState();
+        void ResetCurrentSavedPlayerState();
         void SaveCurrentPlayerWithState(T player);
         void SavePlayer(string team, string playerName, T player);
 
         IList<string> GetTeams();
         IList<string> GetPlayerNamesForTeam(string teamName);
+        
     }
 }
